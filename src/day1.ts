@@ -21,18 +21,21 @@ export function day1() {
 }
 
 function fromInput(s: string): Elf[] {
-  const elfLines = s.split("\n\n");
-  const elfs: Elf[] = [];
-  for (let lines of elfLines) {
-    const foods: Food[] = lines
+  return s.split("\n\n").map((elfLines) =>
+    elfLines
       .split("\n")
-      .map((line) => +line)
+      .map((line) => +line) //convert string to number
       .map((calories) => ({
         calories,
-      }));
-    elfs.push({ foods });
-  }
-  return elfs;
+      }))
+      .reduce(
+        (elf, food) => {
+          elf.foods.push(food);
+          return elf;
+        },
+        { foods: [] } as Elf
+      )
+  );
 }
 
 const input = `18814
