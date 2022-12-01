@@ -8,7 +8,13 @@ interface Food {
 
 export function day1() {
   console.log("running day 1...");
+  part1();
+  part2();
+}
+
+function part1() {
   const elfs = fromInput(input);
+
   const answer = elfs.reduce<number>((max, elf) => {
     const caloriesForElf = elf.foods.reduce(
       (total, food) => (total += food.calories),
@@ -17,6 +23,32 @@ export function day1() {
     return Math.max(max, caloriesForElf);
   }, 0);
 
+  console.log("part1:");
+  console.log({ answer });
+}
+
+function part2() {
+  const elfs = fromInput(input);
+
+  var totalCalories = elfs.map((elf) =>
+    elf.foods.reduce((total, food) => (total += food.calories), 0)
+  );
+
+  var answer = 0;
+  for (let i = 0; i < 3; i++) {
+    var max = 0;
+    var maxIndex = 0;
+    for (let j = 0; j < totalCalories.length; j++) {
+      if (totalCalories[j] > max) {
+        max = totalCalories[j];
+        maxIndex = j;
+      }
+    }
+    answer += max;
+    totalCalories = totalCalories.filter((_, index) => index != maxIndex);
+  }
+
+  console.log("part2:");
   console.log({ answer });
 }
 
